@@ -30,12 +30,13 @@
 		{
 			"ref": "BY162",
 			"title": "HOODIE (BY162)",
-			"description": "Sweat-shirt capuche doublée, manches extra longues.\nCapuche très profonde\nPoche kangourou\nCoupe : très Oversize\nModèle mixte\nBords côtes larges à la taille et aux poignets\nMatière : 100% coton\nGrammage : 460 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nCapuche très profonde\nPoche kangourou\nCoupe : très Oversize\nModèle mixte\nBords côtes larges à la taille et aux poignets\nMatière : 100% coton\nGrammage : 460 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 100
 		}
 	],
 	"_poids": {
 		"cd": [{ "poids": 100 }],
-		"vinyle": [{ "poid": 430 }],
+		"vinyle": [{ "poids": 430 }],
 		"tshirt_ajuste": [{ "poids": 180 }],
 		"tshirt_loose": [{ "poids": 205 }],
 		"tshirt_heavy": [{ "poids": 240 }],
