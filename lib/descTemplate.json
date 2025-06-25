@@ -1,0 +1,36 @@
+{
+	"tshirts": [
+		{
+			"ref": "BY004",
+			"title": "T-SHIRT (BY004)",
+			"description": "T-shirt col rond manches courtes.\nCoupe : Ajusté\nModèle mixte\nMatière : 100% coton\nGrammage : 180g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		},
+		{
+			"ref": "GN200",
+			"title": "T-SHIRT (GN200)",
+			"description": "T-shirt col rond manches courtes.\nCoupe : Loose\nModèle mixte\nMatière : 100% coton\nGrammage : 205g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		},
+		{
+			"ref": "BY102",
+			"title": "T-SHIRT (BY102)",
+			"description": "T-shirt col rond manches courtes.\nCoupe : très Oversize\nModèle mixte\nMatière : 100% coton\nGrammage : 240g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		}
+	],
+	"hoodies": [
+		{
+			"ref": "BY011",
+			"title": "HOODIE (BY011) MIDDLE",
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester\nGrammage : 300 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		},
+		{
+			"ref": "JH001",
+			"title": "HOODIE (JH001)",
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester.\nGrammage : 280 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		},
+		{
+			"ref": "BY162",
+			"title": "HOODIE (BY162)",
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nCapuche très profonde\nPoche kangourou\nCoupe : très Oversize\nModèle mixte\nBords côtes larges à la taille et aux poignets\nMatière : 100% coton\nGrammage : 460 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+		}
+	]
+}
