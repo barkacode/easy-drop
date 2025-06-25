@@ -32,5 +32,25 @@
 			"title": "HOODIE (BY162)",
 			"description": "Sweat-shirt capuche doublée, manches extra longues.\nCapuche très profonde\nPoche kangourou\nCoupe : très Oversize\nModèle mixte\nBords côtes larges à la taille et aux poignets\nMatière : 100% coton\nGrammage : 460 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
 		}
-	]
+	],
+	"_poids": {
+		"cd": [{ "poids": 100 }],
+		"vinyle": [{ "poid": 430 }],
+		"tshirt_ajuste": [{ "poids": 180 }],
+		"tshirt_loose": [{ "poids": 205 }],
+		"tshirt_heavy": [{ "poids": 240 }],
+		"hoodie_middle": [{ "poids": 300 }],
+		"hoodie_classic": [{ "poids": 280 }],
+		"hoodie_lourd": [{ "poids": 460 }],
+		"hoodie_oversize": [{ "poids": 330 }],
+		"crewneck": [{ "poids": 280 }],
+		"cagoule": [{ "poids": 120 }],
+		"chaussettes": [{ "poids": 70 }],
+		"totebag": [{ "poids": 120 }],
+		"mug": [{ "poids": 200 }],
+		"cle_usb": [{ "poids": 20 }],
+		"porte_cle": [{ "poids": 25 }],
+		"plateau": [{ "poids": 150 }],
+		"bob": [{ "poids": 110 }]
+	}
 }
