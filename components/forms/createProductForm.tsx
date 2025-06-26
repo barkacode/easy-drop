@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -21,33 +21,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
 
 const formSchema = z.object({
   type: z.string(),
   title: z.string().min(1, "Titre requis"),
   description: z.string().min(1, "Description requise"),
   ean: z.string().min(1, "EAN requis"),
-  picture: z.any().refine(
-    (files) => files instanceof FileList && files.length > 0,
-    "Veuillez télécharger une image"
-  ),
-  weight: z.number().min(1, "Poids requis"),
-  quantity: z.number().min(1, "Quantité requise").optional(),
-  price: z.number().min(0.01, "Prix requis"),
+  picture: z
+    .any()
+    .refine(
+      (files) => files instanceof FileList && files.length > 0,
+      "Veuillez télécharger une image"
+    ),
+  weight: z.coerce.number().min(0, "Poids requis"),
+  quantity: z.coerce.number().min(0, "Quantité requise").optional(),
+  price: z.coerce.number().min(0.01, "Prix requis"),
 });
 
 export default function CreateProductForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
       type: "",
       title: "",
       description: "",
       ean: "",
       picture: undefined,
-      weight: undefined,
+      weight: 0,
       quantity: undefined,
-      price: undefined,
+      price: 0.0,
     },
   });
 
@@ -67,14 +73,16 @@ export default function CreateProductForm() {
               <FormLabel>Type de produit</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a product type" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Vetements et accessoires</SelectLabel>
-                    <SelectItem value="shirt">T-shirt</SelectItem>
+                    <SelectItem value="tshirt_oversize">T-shirt oversize</SelectItem>
+                    <SelectItem value="tshirt_loose">T-shirt loose</SelectItem>
+                    <SelectItem value="tshirt_adjusted">T-shirt ajusté</SelectItem>
                     <SelectItem value="hat">Casquette</SelectItem>
                     <SelectItem value="hoodie">Hoodie</SelectItem>
                     <SelectItem value="crewneck">Crewneck</SelectItem>
@@ -101,6 +109,129 @@ export default function CreateProductForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Titre</FormLabel>
+              <FormControl>
+                <Input {...field} type="text" id="title" placeholder="Titre" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  className="textarea"
+                  placeholder="Entrez la description du produit"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="ean"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>EAN</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  {...field}
+                  placeholder="Entrez le code EAN du produit"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="picture"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => field.onChange(e.target.files)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="weight"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Poids (en grammes)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  {...field}
+                  placeholder="Entrez le poids du produit"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="quantity"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Quantité <span className="text-gray-300">(optionnel)</span></FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  {...field}
+                  placeholder="Entrez la quantité du produit"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Prix (en euros)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  step="0.01"
+                  {...field}
+                  placeholder="Entrez le prix du produit"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          className="btn btn-primary w-full"
+          disabled={!form.formState.isValid}
+        >
+          Créer le produit
+        </Button>
       </form>
     </Form>
   );
