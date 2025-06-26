@@ -3,55 +3,60 @@
 		{
 			"ref": "BY004",
 			"title": "T-SHIRT (BY004)",
-			"description": "T-shirt col rond manches courtes.\nCoupe : Ajusté\nModèle mixte\nMatière : 100% coton\nGrammage : 180g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "T-shirt col rond manches courtes.\nCoupe : Ajusté\nModèle mixte\nMatière : 100% coton\nGrammage : 180g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 180
 		},
 		{
 			"ref": "GN200",
 			"title": "T-SHIRT (GN200)",
-			"description": "T-shirt col rond manches courtes.\nCoupe : Loose\nModèle mixte\nMatière : 100% coton\nGrammage : 205g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "T-shirt col rond manches courtes.\nCoupe : Loose\nModèle mixte\nMatière : 100% coton\nGrammage : 205g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 205
 		},
 		{
 			"ref": "BY102",
 			"title": "T-SHIRT (BY102)",
-			"description": "T-shirt col rond manches courtes.\nCoupe : très Oversize\nModèle mixte\nMatière : 100% coton\nGrammage : 240g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "T-shirt col rond manches courtes.\nCoupe : très Oversize\nModèle mixte\nMatière : 100% coton\nGrammage : 240g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 240
 		}
 	],
 	"hoodies": [
 		{
 			"ref": "BY011",
 			"title": "HOODIE (BY011) MIDDLE",
-			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester\nGrammage : 300 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester\nGrammage : 300 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 300
 		},
 		{
 			"ref": "JH001",
 			"title": "HOODIE (JH001)",
-			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester.\nGrammage : 280 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*"
+			"description": "Sweat-shirt capuche doublée, manches extra longues.\nPoche kangourou\nCoupe : Classique\nModèle mixte\nMatière : 80% coton / 20% polyester.\nGrammage : 280 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
+			"poids": 280
 		},
 		{
 			"ref": "BY162",
 			"title": "HOODIE (BY162)",
 			"description": "Sweat-shirt capuche doublée, manches extra longues.\nCapuche très profonde\nPoche kangourou\nCoupe : très Oversize\nModèle mixte\nBords côtes larges à la taille et aux poignets\nMatière : 100% coton\nGrammage : 460 g\nPrint : face et dos\n\n- *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*",
-			"poids": 100
+			"poids": 460
+		},
+		{
+			"ref": "BYB006",
+			"description": "BASIC OVERSIZE",
+			"poid": 330
 		}
 	],
-	"_poids": {
-		"cd": [{ "poids": 100 }],
-		"vinyle": [{ "poids": 430 }],
-		"tshirt_ajuste": [{ "poids": 180 }],
-		"tshirt_loose": [{ "poids": 205 }],
-		"tshirt_heavy": [{ "poids": 240 }],
-		"hoodie_middle": [{ "poids": 300 }],
-		"hoodie_classic": [{ "poids": 280 }],
-		"hoodie_lourd": [{ "poids": 460 }],
-		"hoodie_oversize": [{ "poids": 330 }],
-		"crewneck": [{ "poids": 280 }],
-		"cagoule": [{ "poids": 120 }],
-		"chaussettes": [{ "poids": 70 }],
-		"totebag": [{ "poids": 120 }],
-		"mug": [{ "poids": 200 }],
-		"cle_usb": [{ "poids": 20 }],
-		"porte_cle": [{ "poids": 25 }],
-		"plateau": [{ "poids": 150 }],
-		"bob": [{ "poids": 110 }]
-	}
+	"_poids": [
+		{
+			"cd": 100,
+			"vinyle": 430,
+			"crewneck": 280,
+			"cagoule": 120,
+			"chaussettes": 70,
+			"totebag": 120,
+			"mug": 200,
+			"cle_usb": 20,
+			"porte_cle": 25,
+			"plateau": 150,
+			"bob": 110
+		}
+	]
 }
