@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Easy Drop BOBW",
+  title: "BOBW STUDIO",
   description: "A simple tool to create BOBW",
 };
 
