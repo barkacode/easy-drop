@@ -18,9 +18,6 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -65,9 +62,9 @@ export function SignInForm() {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6")}>
+    <div className="flex flex-col gap-6 pt-10 justify-center items-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-sm">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-xl font-bold">Identifiez-vous</h1>

@@ -18,7 +18,6 @@ import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const formSchema = z.object({
   username: z.string(),
@@ -66,12 +65,12 @@ export function SignUpForm() {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6")}>
+    <div className="flex flex-col gap-6 pt-10 justify-center items-center ">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           autoComplete="off"
-          className="space-y-8"
+          className="space-y-8 w-md"
         >
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-2">
