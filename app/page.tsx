@@ -1,4 +1,3 @@
-import CreateProductForm from "@/components/forms/createProductForm";
 import AddProduct from "@/components/Product/addProduct";
 import { DataTable } from "@/components/ui/data-table";
 import { mockProducts } from "@/lib/data";

@@ -18,9 +18,6 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 
 const formSchema = z.object({
