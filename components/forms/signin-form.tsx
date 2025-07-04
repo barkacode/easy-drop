@@ -65,9 +65,9 @@ export function SignInForm() {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6")}>
+    <div className="flex flex-col gap-6 pt-10 justify-center items-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-sm">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-xl font-bold">Identifiez-vous</h1>
