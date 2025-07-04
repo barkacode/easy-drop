@@ -16,7 +16,7 @@ import { redirect } from "next/navigation";
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between p-4 border-b mx-auto ">
+    <header className="w-full flex items-center justify-between p-4 border-b mx-auto ">
       <div className="flex justify-center text-2xl font-bold">
         <Link href="/">BOBW STUDIO</Link>
       </div>
