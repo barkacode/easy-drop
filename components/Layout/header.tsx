@@ -45,7 +45,7 @@ export const AuthButton = async () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center space-x-2">
+      <DropdownMenuTrigger className="flex items-center space-x-2" asChild>
         <Button variant="ghost" className="flex items-center p-5" size={"sm"}>
           <img
             src={user.image || "/default-avatar.png"}

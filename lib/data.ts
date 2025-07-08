@@ -2,7 +2,7 @@ import { FormProduct } from "@/types/formProduct";
 
 export const mockProducts: FormProduct[] = [
   {
-    type: "tshirt_ajusted",
+    type: "tshirt_adjusted",
     title: "T-SHIRT « DMVP »",
     description: `T-shirt col rond manches courtes. Coupe : Ajusté
     Modèle mixte
@@ -27,7 +27,7 @@ export const mockProducts: FormProduct[] = [
     price: 49.99,
   },
     {
-        type: "hoodie",
+        type: "hoodie_middle",
         title: "Hoodie « DMVP »",
         description: `Hoodie col rond manches longues. Coupe : Oversize
         Modèle mixte
