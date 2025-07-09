@@ -6,12 +6,16 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  admin
 }
 
 model User {
@@ -25,6 +29,10 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  role          UserRole  @default(user)
+  banned        Boolean?
+  banReason     String?
+  banExpires    DateTime?
 
   @@unique([email])
   @@map("user")
@@ -40,6 +48,8 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
 
   @@unique([token])
   @@map("session")
