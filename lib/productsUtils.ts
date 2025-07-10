@@ -19,7 +19,6 @@ export function getDescriptionByProductName(productName: string) {
 }
 
 export function getTypeByProductName(productName: string) {
-  console.log("getTypeByProductName called with:", productName);
   const product = products[productName];
   if (product) {
     return product.type;

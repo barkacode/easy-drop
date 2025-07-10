@@ -19,6 +19,7 @@ import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,7 +28,9 @@ const formSchema = z.object({
     .min(8, "Le mot de passe doit comporter au moins 8 caractères"),
 });
 
-export function SignInForm() {
+export default function SignInForm() {
+  const [loading, setLoading] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,9 +53,16 @@ export function SignInForm() {
         password: values.password,
       },
       {
+        onRequest: () => {
+          setLoading(true);
+        },
+        onResponse: () => {
+          setLoading(false);
+        },
         onSuccess: () => {
           router.push("/auth");
           router.refresh();
+          toast.success("Connexion réussie !");
         },
         onError: (error) => {
           toast.error(error.error.message);
@@ -71,10 +81,10 @@ export function SignInForm() {
               <div className="text-center text-sm text-gray-500">
                 Vous n'avez pas de compte ?{" "}
                 <Link
-                  href="/auth/signup"
+                  href="/contact"
                   className="text-blue-500 hover:underline"
                 >
-                  Inscrivez-vous ici
+                  Contactez nous
                 </Link>
               </div>
             </div>
@@ -105,7 +115,11 @@ export function SignInForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Se connecter</Button>
+              <Button type="submit" 
+                className={cn("w-full", loading && "opacity-50")}
+                disabled={loading}
+                >Se connecter</Button>
+
             </div>
           </div>
         </form>
