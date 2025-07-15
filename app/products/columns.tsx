@@ -12,6 +12,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { getNameByProductName, getTypeByProductName } from "@/lib/productsUtils";
+
+function getColorByProduct(product: string): string {
+  const type = getTypeByProductName(product);
+  switch (type) {
+    case "Audio":
+      return "bg-blue-500";
+    case "Clothing":
+      return "bg-green-500";
+    case "Accessory":
+      return "bg-purple-500";
+    case "Other":
+      return "bg-red-500";
+    default:
+      return "bg-red-500";
+  }
+}
 
 export const columns: ColumnDef<FormProduct>[] = [
   {
@@ -35,9 +53,7 @@ export const columns: ColumnDef<FormProduct>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div className="text-sm text-neutral-500">{row.getValue("type")}</div>
-      );
+      return <Badge className={` ${getColorByProduct(row.getValue("type"))}`}>{getNameByProductName(row.getValue("type"))}</Badge>;
     },
   },
   {
@@ -62,9 +78,9 @@ export const columns: ColumnDef<FormProduct>[] = [
   },
   {
     accessorKey: "price",
-    header: ({ column }) => <div className="text-right">Prix</div>,
+    header: ({ column }) => <div className="text-right font-semibold">Prix</div>,
     cell: ({ row }) => (
-      <div className="text-right">{row.getValue("price")}</div>
+      <div className="text-right font-semibold">{row.getValue("price")}</div>
     ),
   },
   {

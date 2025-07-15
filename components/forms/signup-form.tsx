@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -14,10 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
   username: z.string(),
@@ -44,24 +42,33 @@ export function SignUpForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    await signUp.email(
-      {
-        email: values.email,
-        password: values.password,
-        name: values.username,
-      },
-      {
-        onSuccess: () => {
-          router.push("/auth");
-        },
-        onError: (error) => {
-          toast.error(error.error.message);
-        },
-      }
-    );
+    try {
+      const newUser = await authClient.admin
+        .createUser({
+          name: values.username,
+          email: values.email,
+          password: values.password,
+          role: "user",
+          data: {
+            company: values.company,
+          },
+        })
+        .then((res) => {
+          console.log("Utilisateur créé avec succès:", res);
+          return res;
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la création de l'utilisateur:", err);
+          throw new Error(err.message || "Erreur inconnue");
+        });
+
+      console.log("Nouvel utilisateur:", newUser);
+
+      toast("Utilisateur créé avec succès !");
+      // router.push("/admin/users"); // ou autre page
+    } catch (err: any) {
+      toast(err.message);
+    }
   }
 
   return (
