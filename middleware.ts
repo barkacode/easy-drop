@@ -8,9 +8,23 @@ export function middleware(req: NextRequest) {
   const sessionCookie = getSessionCookie(req);
   const isAuthenticated = !!sessionCookie;
 
-  if (currentPath === "/auth/signin" && isAuthenticated) {
+  const isAuthPage = currentPath.startsWith("/auth");
+  const isPublicPage =
+    currentPath.startsWith("/_next") ||
+    currentPath.startsWith("/favicon.ico") ||
+    currentPath.startsWith("/api/public");
+
+  // ✅ Redirige un utilisateur connecté hors de la page de connexion
+  if (isAuthPage && isAuthenticated) {
     return NextResponse.redirect(new URL("/", req.url));
   }
+
+  // ✅ Laisse passer les pages publiques ou les ressources statiques
+  if (isPublicPage) {
+    return NextResponse.next();
+  }
+
+  
 
   return NextResponse.next();
 }

@@ -7,16 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
 
-    const {
-      type,
-      title,
-      description,
-      ean,
-      weight,
-      quantity,
-      price,
-      images, 
-    } = data;
+    const { type, title, description, ean, weight, quantity, price, images } = data;
 
     // Validation simple
     if (
