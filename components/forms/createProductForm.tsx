@@ -142,7 +142,7 @@ export default function CreateProductForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a product type" />
+                    <SelectValue placeholder="Sélectionner un type de produit" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

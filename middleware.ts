@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
+import { toast } from "sonner";
 
 export function middleware(req: NextRequest) {
   const { nextUrl } = req;
@@ -8,7 +9,7 @@ export function middleware(req: NextRequest) {
   const sessionCookie = getSessionCookie(req);
   const isAuthenticated = !!sessionCookie;
 
-  const isAuthPage = currentPath.startsWith("/auth");
+  const isAuthPage = currentPath.startsWith("/auth/signin");
   const isPublicPage =
     currentPath.startsWith("/_next") ||
     currentPath.startsWith("/favicon.ico") ||
@@ -24,7 +25,14 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  
+  // ✅ Redirige un utilisateur non authentifié vers la page de connexion
+  if (!isAuthenticated && !isAuthPage) {
+    if (currentPath == "/") {
+      return NextResponse.redirect(
+        new URL(`/auth/signin`, req.url)
+      );
+    }
+  }
 
   return NextResponse.next();
 }

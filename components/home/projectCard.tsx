@@ -39,13 +39,11 @@ export default function ProjectCard({ title, status, date }: ProjectCardProps) {
 
   return (
     <div
-      className={` border p-4 rounded-md shadow-md h-32 w-48 ${getColorByStatus(
-        status
-      )} cursor-pointer`}
+      className={` border p-4 rounded-md shadow-md h-32 w-48 ${getColorByStatus(status)} cursor-pointer`}
       onClick={handleClick}
     >
       <h3 className="text-lg font-semibold ">{title}</h3>
-      {/* <Badge className="bg-amber-300">{status}</Badge> */}
+      <Badge variant="outline">{status}</Badge>
       <p className="text-sm text-gray-500 mt-2">{date}</p>
     </div>
   );

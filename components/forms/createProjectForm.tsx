@@ -151,7 +151,7 @@ export default function CreateProjectForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Titre</FormLabel>
+              <FormLabel>Nom du projet</FormLabel>
               <FormControl>
                 <Input {...field} type="text" id="title" placeholder="Titre" />
               </FormControl>
@@ -164,7 +164,7 @@ export default function CreateProjectForm() {
           name="deadline"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Date limite</FormLabel>
+              <FormLabel>Date de deploiement</FormLabel>
               <FormControl>
                 <Input
                   type="date"
