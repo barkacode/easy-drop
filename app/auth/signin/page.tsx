@@ -1,4 +1,4 @@
-import PageLayout from "@/app/PageLayout";
+import PageLayout from "@/components/Layout/PageLayout";
 import SignInForm from "@/components/forms/signin-form";
 
 export default function SignInPage() {

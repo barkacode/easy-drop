@@ -1,5 +1,5 @@
 import { SignUpForm } from "@/components/forms/signup-form";
-import PageLayout from "@/app/PageLayout";
+import PageLayout from "@/components/Layout/PageLayout";
 
 export default function SignUpPage() {
   return (

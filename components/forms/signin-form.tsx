@@ -56,11 +56,12 @@ export default function SignInForm() {
         onRequest: () => {
           setLoading(true);
         },
-        onResponse: () => {
+        onResponse: (res) => {
           setLoading(false);
+          console.log(res.response.status)
         },
-        onSuccess: () => {
-          router.push("/auth");
+        onSuccess: (data) => {
+          router.push("/");
           router.refresh();
           toast.success("Connexion réussie !");
         },
