@@ -14,9 +14,7 @@ export async function POST(req: NextRequest) {
       !type ||
       !title ||
       !description ||
-      !ean ||
       !weight ||
-      !quantity ||
       !price
     ) {
       return NextResponse.json({ error: "Champs manquants." }, { status: 400 });

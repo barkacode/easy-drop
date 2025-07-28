@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
-import { toast } from "sonner";
 
 export function middleware(req: NextRequest) {
   const { nextUrl } = req;
