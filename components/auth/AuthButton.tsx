@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { LogOut, User2 } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export const AuthButton = ({
   user,
