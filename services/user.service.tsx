@@ -8,7 +8,7 @@ export const getProjectByUserId = async (id: string) => {
 };
 
 export const getStoreByUserId = async (id?: string) => {
-  const currentUserId = id || process.env.NEXT_PUBLIC_USER_ID;
+  const currentUserId = id || process.env.USER_ID;
   
   return prisma.user.findUnique({
     where: { id: currentUserId },

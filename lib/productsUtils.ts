@@ -30,9 +30,9 @@ export function getTypeByProductName(productName: string) {
 export function getNameByProductName(productName: string) {
   const product = products[productName];
   if (product) {
-	return product.name;
+    return product.name;
   } else {
-	throw new Error("Product not found");
+    throw new Error("Product not found");
   }
 }
 
