@@ -1,3 +1,4 @@
+import { FormBundle } from "@/types/formBundle";
 import { FormProduct } from "@/types/formProduct";
 
 export const mockProducts: FormProduct[] = [
@@ -40,5 +41,20 @@ export const mockProducts: FormProduct[] = [
     weight: 600,
     quantity: 8,
     price: 59.99,
+  },
+];
+
+export const mockBundles: FormBundle[] = [
+  {
+    title: "Bundle DMVP T-Shirt + Vinyle",
+    description: "Pack exclusif avec un T-shirt et un vinyle collector.",
+    products: ["T-SHIRT « DMVP »", "Album Collector Vinyle"],
+    price: 69.99,
+  },
+  {
+    title: "Bundle Hoodie + T-Shirt",
+    description: "Pack avec un hoodie et un T-shirt DMVP.",
+    products: ["Hoodie « DMVP »", "T-SHIRT « DMVP »"],
+    price: 89.99,
   },
 ];
