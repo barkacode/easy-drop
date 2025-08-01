@@ -1,49 +1,53 @@
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 
-export enum ProjectStatus {
-  DRAFT = "Brouillon",
-  IN_PROGRESS = "En cours",
-  VALIDATED = "Validé",
-  DEPLOYED = "Déployé",
-}
+export const ProjectStatus = {
+  DRAFT: "Brouillon",
+  IN_PROGRESS: "En cours",
+  VALIDATED: "Validé",
+  DEPLOYED: "Déployé",
+} as const;
+
+export type ProjectStatusKey = keyof typeof ProjectStatus; // "DRAFT" | "IN_PROGRESS" | ...
+export type ProjectStatusValue = typeof ProjectStatus[ProjectStatusKey]; // "Brouillon" | ...
+
 interface ProjectCardProps {
   title: string;
-  status: ProjectStatus;
+  status: ProjectStatusKey; 
   date: string;
 }
 
 export default function ProjectCard({ title, status, date }: ProjectCardProps) {
   const router = useRouter();
 
-  function getColorByStatus(status: ProjectStatus): string {
+  // 4. Couleur selon le statut
+  function getColorByStatus(status: ProjectStatusKey): string {
     switch (status) {
-      case ProjectStatus.DRAFT:
+      case "DRAFT":
         return "bg-gray-200 text-gray-800";
-      case ProjectStatus.IN_PROGRESS:
+      case "IN_PROGRESS":
         return "bg-yellow-200 text-yellow-800";
-      case ProjectStatus.VALIDATED:
+      case "VALIDATED":
         return "bg-green-200 text-green-800";
-      case ProjectStatus.DEPLOYED:
+      case "DEPLOYED":
         return "bg-blue-200 text-blue-800";
       default:
         return "bg-gray-200 text-gray-800";
     }
   }
 
-  // clicker sur une card redirectionne vers la page du projet
+  // 5. Redirection sur clic
   const handleClick = () => {
-    // Redirection logic here, e.g., using Next.js router
-    router.push(`/projects/${title}`);
+    router.push(`/projects/${encodeURIComponent(title)}`);
   };
 
   return (
     <div
-      className={` border p-4 rounded-md shadow-md h-32 w-48 ${getColorByStatus(status)} cursor-pointer`}
+      className={`border p-4 rounded-md shadow-md h-32 w-48 ${getColorByStatus(status)} cursor-pointer`}
       onClick={handleClick}
     >
-      <h3 className="text-lg font-semibold ">{title}</h3>
-      <Badge variant="outline">{status}</Badge>
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <Badge variant="outline">{ProjectStatus[status]}</Badge>
       <p className="text-sm text-gray-500 mt-2">{date}</p>
     </div>
   );

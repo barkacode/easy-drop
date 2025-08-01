@@ -1,3 +1,4 @@
+import { FormBundle } from "@/types/formBundle";
 import { FormProduct } from "@/types/formProduct";
 
 export const mockProducts: FormProduct[] = [
@@ -11,7 +12,7 @@ export const mockProducts: FormProduct[] = [
     Print : face et dos
     - *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*`,
     ean: "1234567890123",
-    picture: "/products/tshirt.png", 
+    picture: "/products/tshirt.png",
     weight: 250,
     quantity: 10,
     price: 29.99,
@@ -26,64 +27,34 @@ export const mockProducts: FormProduct[] = [
     quantity: 5,
     price: 49.99,
   },
-    {
-        type: "hoodie_middle",
-        title: "Hoodie « DMVP »",
-        description: `Hoodie col rond manches longues. Coupe : Oversize
+  {
+    type: "hoodie_middle",
+    title: "Hoodie « DMVP »",
+    description: `Hoodie col rond manches longues. Coupe : Oversize
         Modèle mixte
         Matière : 80% coton, 20% polyester
         Grammage : 350g
         Print : face et dos
         - *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*`,
-        ean: "1122334455667",
-        picture: "/products/tshirt.png",
-        weight: 600,
-        quantity: 8,
-        price: 59.99,
-    },
-    {
-        type: "tshirt_loose",
-        title: "T-SHIRT « DMVP »",
-        description: `T-shirt col rond manches courtes. Coupe : Loose
-        Modèle mixte
-        Matière : 100% coton
-        Grammage : 180g
-        Print : face et dos
-        - *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*`,
-        ean: "2233445566778",
-        picture: "/products/tshirt.png",
-        weight: 250,
-        quantity: 15,
-        price: 34.99,
-    },
-    {
-        type: "tshirt_loose",
-        title: "T-SHIRT « DMVP »",
-        description: `T-shirt col rond manches courtes. Coupe : Loose
-        Modèle mixte
-        Matière : 100% coton
-        Grammage : 180g
-        Print : face et dos
-        - *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*`,
-        ean: "2233445566778",
-        picture: "/products/tshirt.png",
-        weight: 250,
-        quantity: 15,
-        price: 34.99,
-    },
-    {
-        type: "tshirt_loose",
-        title: "T-SHIRT « DMVP »",
-        description: `T-shirt col rond manches courtes. Coupe : Loose
-        Modèle mixte
-        Matière : 100% coton
-        Grammage : 180g
-        Print : face et dos
-        - *Lavable à 30° max, à l'envers en délicat. Sèche-linge déconseillé.*`,
-        ean: "2233445566778",
-        picture: "/products/tshirt.png",
-        weight: 250,
-        quantity: 15,
-        price: 34.99,
-    },
+    ean: "1122334455667",
+    picture: "/products/tshirt.png",
+    weight: 600,
+    quantity: 8,
+    price: 59.99,
+  },
+];
+
+export const mockBundles: FormBundle[] = [
+  {
+    title: "Bundle DMVP T-Shirt + Vinyle",
+    description: "Pack exclusif avec un T-shirt et un vinyle collector.",
+    products: ["T-SHIRT « DMVP »", "Album Collector Vinyle"],
+    price: 69.99,
+  },
+  {
+    title: "Bundle Hoodie + T-Shirt",
+    description: "Pack avec un hoodie et un T-shirt DMVP.",
+    products: ["Hoodie « DMVP »", "T-SHIRT « DMVP »"],
+    price: 89.99,
+  },
 ];

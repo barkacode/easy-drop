@@ -3,8 +3,8 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/auth-client";
-import ProjectCard, { ProjectStatus } from "@/components/home/projectCard";
-import PageLayout from "../components/Layout/PageLayout";
+import ProjectCard, { ProjectStatus, ProjectStatusKey } from "@/components/home/projectCard";
+import PageLayout from "../components/layout/PageLayout";
 import AddProjectButton from "@/components/home/addProjectButton";
 import StoreCard from "@/components/home/storeCard";
 import AddStoreButton from "@/components/home/addStoreButton";
@@ -25,7 +25,7 @@ interface Store {
 interface Project {
   id: string;
   name: string;
-  status: ProjectStatus;
+  status: ProjectStatusKey; 
   deadline?: string;
 }
 
@@ -78,10 +78,10 @@ export default function Home() {
   // Memoized project statistics
   const projectStats = useMemo(() => {
     const inProgress = projects.filter(
-      (p) => p.status === ProjectStatus.IN_PROGRESS
+      (p) => p.status === "IN_PROGRESS"
     ).length;
-    const draft = projects.filter((p) => p.status === ProjectStatus.DRAFT).length;
-    const validated = projects.filter((p) => p.status === ProjectStatus.VALIDATED).length;
+    const draft = projects.filter((p) => p.status === "DRAFT").length;
+    const validated = projects.filter((p) => p.status === "VALIDATED").length;
 
     return { inProgress, draft, validated };
   }, [projects]);

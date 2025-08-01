@@ -58,7 +58,6 @@ export default function SignInForm() {
         },
         onResponse: (res) => {
           setLoading(false);
-          console.log(res.response.status)
         },
         onSuccess: (data) => {
           router.push("/");
