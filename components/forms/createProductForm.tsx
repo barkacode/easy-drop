@@ -38,7 +38,7 @@ import {
   MultiSelectorList,
   MultiSelectorTrigger,
 } from "../ui/multiselect";
-import { Category } from "../Product/addProduct";
+import { Category } from "../product/addProduct";
 
 const formSchema = z.object({
   type: z.string().min(1, "Type de produit requis"),

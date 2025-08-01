@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/auth-client";
 import ProjectCard, { ProjectStatus, ProjectStatusKey } from "@/components/home/projectCard";
-import PageLayout from "../components/Layout/PageLayout";
+import PageLayout from "../components/layout/PageLayout";
 import AddProjectButton from "@/components/home/addProjectButton";
 import StoreCard from "@/components/home/storeCard";
 import AddStoreButton from "@/components/home/addStoreButton";
