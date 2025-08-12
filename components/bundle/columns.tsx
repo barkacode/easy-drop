@@ -1,6 +1,6 @@
 "use client";
 
-import { FormBundle } from "@/types/formBundle";
+import { FormBundle } from "@/lib/types/bundle";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<FormBundle>[] = [

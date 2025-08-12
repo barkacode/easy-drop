@@ -1,5 +1,5 @@
-import { FormBundle } from "@/types/formBundle";
-import { FormProduct } from "@/types/formProduct";
+import { FormBundle } from "@/lib/types/bundle";
+import { FormProduct } from "@/lib/types/product";
 
 export const mockProducts: FormProduct[] = [
   {
