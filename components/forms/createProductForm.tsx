@@ -43,7 +43,7 @@ import { Category } from "../product/addProduct";
 const formSchema = z.object({
   type: z.string().min(1, "Type de produit requis"),
   title: z.string().min(1, "Titre requis"),
-  color: z.string().min(1, "Couleur requise"),
+  color: z.string().min(1, "Couleur requise").optional(),
   description: z.string().min(1, "Description requise"),
   ean: z.string().optional(),
   picture: z
@@ -101,6 +101,8 @@ export default function CreateProductForm({
       print: "",
     },
   });
+
+  console.log("Form initialized with default values:", form.formState.errors);
 
   // surveille l'élément choisi
   const onSelectType = form.watch("type");
@@ -166,19 +168,76 @@ export default function CreateProductForm({
         imageUrl = await uploadImage(file);
       }
 
+      // Mappage des couleurs vers les enums Prisma
+      const colorMapping: Record<string, string> = {
+        black: "BLACK",
+        gray: "GRAY",
+        white: "WHITE",
+      };
+
+      // Mappage des types d'impression vers les enums Prisma
+      const printMapping: Record<string, string> = {
+        dtf: "DTF",
+        serigraphie: "SERIGRAPHIE",
+        broderie: "BRODERIE",
+      };
+
+      // Déterminer la catégorie basée sur le contexte
+      let categoryValue: string;
+      switch (category) {
+        case "on-demand":
+          categoryValue = "ON_DEMAND";
+          break;
+        case "fabrication-ferme":
+          categoryValue = "FABRICATION_FERME";
+          break;
+        case "phonographie":
+          categoryValue = "PHONOGRAPHIE";
+          break;
+        default:
+          categoryValue = "ON_DEMAND";
+      }
+
       const payload = {
+        category: categoryValue,
         type: data.type,
         title: data.title,
-        color: data.color,
         description: data.description,
-        ean: data.ean,
-        weight: data.weight,
-        quantity: data.quantity ?? 0,
         price: data.price,
         isIndividual: data.isIndividual,
         inPack: data.inPack,
+
+        // Champs optionnels
+        ean: data.ean || null,
+        weight: data.weight || null,
+
+        // Couleur - seulement pour ON_DEMAND
+        color:
+          category === "on-demand" && data.color
+            ? colorMapping[data.color] || null
+            : null,
+
+        // Quantité - seulement pour PHONOGRAPHIE
+        quantity:
+          category === "phonographie" ? (data.quantity ?? null) : null,
+
+        // Type d'impression - seulement pour FABRICATION_FERME
+        printType:
+          category === "fabrication-ferme" && data.print
+            ? printMapping[data.print] || null
+            : null,
+
+        // Tailles - format JSON pour FABRICATION_FERME
+        sizeInventory:
+          category === "fabrication-ferme" && data.sizeQuantities
+            ? data.sizeQuantities
+            : null,
+
+        // Images
         images: imageUrl ? [imageUrl] : [],
       };
+
+      console.log("Payload envoyé:", payload); // Pour déboguer
 
       const res = await fetch("/api/products", {
         method: "POST",
@@ -188,12 +247,20 @@ export default function CreateProductForm({
 
       if (!res.ok) {
         const error = await res.json();
+        console.error("Erreur API:", error);
         alert(error.error || "Erreur lors de la création du produit.");
         return;
       }
 
+      const result = await res.json();
+      console.log("Produit créé:", result);
+
       alert("Produit créé avec succès !");
       form.reset();
+
+      // Reset des états locaux
+      setSelectedSizes(new Set());
+      setSizeQuantities({});
 
       // Appel du callback de succès pour fermer le dialog
       if (onSuccess) {
@@ -217,6 +284,8 @@ export default function CreateProductForm({
         return category;
     }
   };
+
+  console.log("form", form);
 
   return (
     <div className="space-y-4">

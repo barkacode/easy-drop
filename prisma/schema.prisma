@@ -31,6 +31,23 @@ enum StoreStatus {
   INACTIVE
 }
 
+enum ProductCategory {
+  ON_DEMAND
+  FABRICATION_FERME
+  PHONOGRAPHIE
+}
+
+enum PrintType {
+  DTF
+  SERIGRAPHIE
+  BRODERIE
+}
+
+enum ProductColor {
+  BLACK
+  GRAY
+  WHITE
+}
 model User {
   id            String         @id
   name          String
@@ -115,18 +132,27 @@ model Project {
 }
 
 model Product {
-  id          String         @id @default(uuid())
-  type        String
-  title       String
-  description String
-  ean         String         @unique
-  weight      Int
-  quantity    Int
-  price       Float
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  images      ProductImage[]
-  project     Project[]      @relation("ProjectProducts")
+  id           String          @id @default(uuid())
+  category     ProductCategory @default(ON_DEMAND)
+  type         String
+  title        String
+  description  String
+  ean          String          @unique
+  weight       Int
+  price        Float
+  images       ProductImage[]
+  isIndividual Boolean         @default(false)
+  inPack       Boolean         @default(false)
+  project      Project[]       @relation("ProjectProducts")
+
+  // Champs optionnels selon la catégorie
+  color     ProductColor? // Pour ON_DEMAND
+  quantity  Int? // Pour PHONOGRAPHIE
+  printType PrintType? // Pour FABRICATION_FERME
+  sizes     Json? // Pour FABRICATION_FERME
+  
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 
   @@map("product")
 }
@@ -152,5 +178,3 @@ model ShopifyStore {
 
   @@map("shopify_store")
 }
-
-

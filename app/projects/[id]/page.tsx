@@ -2,7 +2,7 @@
 
 import AddProduct from "@/components/product/addProduct";
 import { DataTable } from "@/components/ui/data-table";
-import { mockBundles, mockProducts } from "@/lib/data";
+import { mockBundles } from "@/lib/data";
 import { columns } from "../../../components/product/columns";
 import { columns as bundleColumns } from "@/components/bundle/columns";
 import PageLayout from "../../../components/layout/PageLayout";
@@ -69,11 +69,6 @@ export default function ProjectPage() {
     return <div className="p-4 text-red-500">Erreur: {error}</div>;
   }
 
-  if (products.length === 0) {
-    return <div className="p-4">Aucun produit trouvé.</div>;
-  }
-
-  console.log(products);
   return (
     <PageLayout>
       <h2 className="text-xl font-bold">Mes fiches produits</h2>
@@ -85,7 +80,7 @@ export default function ProjectPage() {
 
       <DataTable columns={bundleColumns} data={mockBundles} />
       <div className="w-full flex justify-end mt-4">
-        <AddBundle />
+        <AddBundle data={products} />
       </div>
     </PageLayout>
   );
