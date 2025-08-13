@@ -44,7 +44,7 @@ export default function CreateBundleForm({ data }: CreateBundleFormProps) {
     {}
   );
 
-  const products = data
+  const products = data.filter((p) => p.inPack);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -80,6 +80,8 @@ export default function CreateBundleForm({ data }: CreateBundleFormProps) {
       console.error("Error submitting form:", error);
     }
   }
+
+
 
   return (
     <Form {...form}>

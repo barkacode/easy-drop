@@ -24,7 +24,7 @@ export default function AddBundle({ data }: AddBundleProps) {
   const handleDialogClose = () => {
     setIsOpen(false);
   };
-  console.log("2 "+data);
+  console.log("2 "+ JSON.stringify(data));
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

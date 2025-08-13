@@ -2,6 +2,7 @@
 export type ProjectStatus = "DRAFT" | "IN_PROGRESS" | "VALIDATED" | "DEPLOYED";
 export type StoreStatus = "IN_PROGRESS" | "ACTIVE" | "INACTIVE";
 export type UserRole = "user" | "admin";
+export type ProductCategory = "ON_DEMAND" | "FABRICATION_FERME" | "PHONOGRAPHIE";
 
 export interface User {
   id: string;
@@ -75,19 +76,55 @@ export interface Project {
   updatedAt: Date;
 }
 
+// model Product {
+//   id           String          @id @default(uuid())
+//   category     ProductCategory @default(ON_DEMAND)
+//   type         String
+//   title        String
+//   description  String
+//   ean          String?         @unique
+//   weight       Int?
+//   price        Float
+//   images       ProductImage[]
+//   isIndividual Boolean         @default(false)
+//   inPack       Boolean         @default(false)
+
+
+//   // Champs optionnels selon la catégorie
+//   color     ProductColor?
+//   quantity  Int?
+//   printType PrintType?
+//   sizes     Json?
+  
+//   // ✅ Relation avec le projet
+//   projectId String?
+//   project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("product")
+// }
 export interface Product {
   id: string;
+  category: ProductCategory;
   type: string;
   title: string;
   description: string;
-  ean: string;
-  weight: number;
-  quantity: number;
+  ean?: string;
+  weight?: number;
   price: number;
+  images: ProductImage[];
+  isIndividual: boolean;
+  inPack: boolean;
+  color?: string;
+  quantity?: number;
+  printType?: string;
+  sizes?: string[];
   createdAt: Date;
   updatedAt: Date;
-  images: ProductImage[];
   project: Project[];
+  projectId: string;
 }
 
 export interface ProductImage {
