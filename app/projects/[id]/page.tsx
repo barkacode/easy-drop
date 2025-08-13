@@ -38,7 +38,6 @@ export default function ProjectPage() {
         }
 
         const productsData = await productsResponse.json();
-        alert("Produits récupérés avec succès: " + JSON.stringify(productsData));
         setProducts(productsData);
 
         // TODO: Récupérer les bundles quand l'API sera prête
