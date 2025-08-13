@@ -43,7 +43,7 @@ import { Category } from "../product/addProduct";
 const formSchema = z.object({
   type: z.string().min(1, "Type de produit requis"),
   title: z.string().min(1, "Titre requis"),
-  color: z.string().min(1, "Couleur requise").optional(),
+  color: z.string().optional(),
   description: z.string().min(1, "Description requise"),
   ean: z.string().optional(),
   picture: z
@@ -57,7 +57,7 @@ const formSchema = z.object({
     )
     .optional(),
   weight: z.coerce.number().min(0, "Poids requis"),
-  quantity: z.coerce.number().min(0, "Quantité requise").optional(),
+  quantity: z.coerce.number().optional(),
   price: z.coerce.number().min(0.01, "Prix requis"),
   isIndividual: z.boolean().default(false),
   inPack: z.boolean().default(false),
@@ -66,13 +66,17 @@ const formSchema = z.object({
   print: z.string().optional(),
 });
 
-export default function CreateProductForm({
-  category,
-  onSuccess,
-}: {
+interface CreateProductFormProps {
+  projectId: string;
   category: Category;
   onSuccess?: () => void;
-}) {
+}
+
+export default function CreateProductForm({
+  projectId,
+  category,
+  onSuccess,
+}: CreateProductFormProps) {
   const sizes = ["Taille unique", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
   // États pour la gestion des tailles
@@ -199,6 +203,7 @@ export default function CreateProductForm({
       }
 
       const payload = {
+        projectId: projectId,
         category: categoryValue,
         type: data.type,
         title: data.title,
@@ -246,11 +251,19 @@ export default function CreateProductForm({
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        console.error("Erreur API:", error);
+      const errorText = await res.text();
+      console.error("Erreur API (texte brut):", errorText);
+      
+      try {
+        const error = JSON.parse(errorText);
+        console.error("Erreur API (JSON):", error);
         alert(error.error || "Erreur lors de la création du produit.");
-        return;
+      } catch {
+        console.error("Impossible de parser l'erreur JSON");
+        alert(`Erreur ${res.status}: ${errorText}`);
       }
+      return;
+    }
 
       const result = await res.json();
       console.log("Produit créé:", result);

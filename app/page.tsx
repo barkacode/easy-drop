@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/auth-client";
 import ProjectCard from "@/components/home/projectCard";
-import PageLayout from "../components/layout/PageLayout";
 import AddProjectButton from "@/components/home/addProjectButton";
 import StoreCard from "@/components/home/storeCard";
 import AddStoreButton from "@/components/home/addStoreButton";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
 import { ProjectStatusKey } from "@/lib/types/project";
+import PageLayout from "@/components/Layout/pageLayout";
 
 interface Store {
   id: string;

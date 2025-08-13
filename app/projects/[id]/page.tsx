@@ -5,7 +5,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { mockBundles } from "@/lib/data";
 import { columns } from "../../../components/product/columns";
 import { columns as bundleColumns } from "@/components/bundle/columns";
-import PageLayout from "../../../components/layout/PageLayout";
+import PageLayout from "../../../components/Layout/pageLayout";
 import AddBundle from "@/components/bundle/addBundle";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -38,6 +38,7 @@ export default function ProjectPage() {
         }
 
         const productsData = await productsResponse.json();
+        alert("Produits récupérés avec succès: " + JSON.stringify(productsData));
         setProducts(productsData);
 
         // TODO: Récupérer les bundles quand l'API sera prête
@@ -74,7 +75,7 @@ export default function ProjectPage() {
       <h2 className="text-xl font-bold">Mes fiches produits</h2>
       <DataTable columns={columns} data={products} />
       <div className="w-full flex justify-end mt-4">
-        <AddProduct />
+        <AddProduct projectId={projectId as string} />
       </div>
       <h2 className="text-xl font-bold mt-8">Mes bundles</h2>
 

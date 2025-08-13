@@ -15,8 +15,11 @@ import React, { useState } from "react";
 import { Disc3, Printer, Package, ArrowLeft } from "lucide-react";
 
 export type Category = "on-demand" | "fabrication-ferme" | "phonographie";
+interface AddProductProps {
+  projectId: string;
+} 
 
-export default function AddProduct() {
+export default function AddProduct({ projectId }: AddProductProps) {
   const [category, setCategory] = useState<Category | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -116,6 +119,7 @@ export default function AddProduct() {
           ) : (
             <CreateProductForm
               category={category}
+              projectId={projectId}
               // onSuccess={handleDialogClose}
             />
           )}
