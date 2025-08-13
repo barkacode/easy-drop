@@ -12,13 +12,19 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import CreateBundleForm from "../forms/createBundleForm";
+import { Product } from "@/lib/types";
 
-export default function AddBundle() {
+interface AddBundleProps {
+  data: Product[];
+}
+
+export default function AddBundle({ data }: AddBundleProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDialogClose = () => {
     setIsOpen(false);
   };
+  console.log("2 "+ JSON.stringify(data));
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -32,7 +38,7 @@ export default function AddBundle() {
             Créer un nouveau bundle de produits.
           </DialogDescription>
         </DialogHeader>
-        <CreateBundleForm />
+        <CreateBundleForm data={data} />
         <DialogFooter>
           <Button variant="secondary" onClick={handleDialogClose}>
             Annuler

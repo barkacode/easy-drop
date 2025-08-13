@@ -15,7 +15,6 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { mockProducts } from "@/lib/data";
 import {
   MultiSelector,
   MultiSelectorContent,
@@ -24,7 +23,8 @@ import {
   MultiSelectorList,
   MultiSelectorTrigger,
 } from "../ui/multiselect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Product } from "@/lib/types";
 
 const formSchema = z.object({
   name: z.string().min(2).max(100),
@@ -34,12 +34,17 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function CreateBundleForm() {
+interface CreateBundleFormProps {
+  data: Product[];
+}
+
+export default function CreateBundleForm({ data }: CreateBundleFormProps) {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [productPrices, setProductPrices] = useState<{ [key: string]: number }>(
     {}
   );
 
+  const products = data.filter((p) => p.inPack);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -49,6 +54,7 @@ export default function CreateBundleForm() {
       products: [],
     },
   });
+  console.log("3 "+products)
 
   const handlePriceChange = (productTitle: string, newPrice: string) => {
     setProductPrices((prev) => ({
@@ -58,7 +64,7 @@ export default function CreateBundleForm() {
   };
 
   // Calculer le prix total
-  const totalPrice = mockProducts
+  const totalPrice = products
     .filter((p) => (form.watch("products") || []).includes(p.title))
     .reduce((sum, product) => {
       const price = productPrices[product.title] || product.price;
@@ -75,10 +81,11 @@ export default function CreateBundleForm() {
     }
   }
 
+
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {/* ...existing fields... */}
         <FormField
           control={form.control}
           name="name"
@@ -130,7 +137,7 @@ export default function CreateBundleForm() {
                 </MultiSelectorTrigger>
                 <MultiSelectorContent>
                   <MultiSelectorList>
-                    {mockProducts.map((product, index) => (
+                    {products.map((product, index) => (
                       <MultiSelectorItem value={product.title} key={index}>
                         {product.title}
                       </MultiSelectorItem>
@@ -153,7 +160,7 @@ export default function CreateBundleForm() {
                 </tr>
               </thead>
               <tbody>
-                {mockProducts
+                {products
                   .filter((p) =>
                     (form.watch("products") || []).includes(p.title)
                   )

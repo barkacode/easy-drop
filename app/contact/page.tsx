@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import PageLayout from "../../components/layout/PageLayout";
+import PageLayout from "../../components/Layout/pageLayout";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 

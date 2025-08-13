@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { FormProduct } from "@/types/formProduct";
+import { Product } from "@/lib/types";
 import { Images, ImageOff, ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { getNameByProductName, getTypeByProductName } from "@/lib/productsUtils";
+import {
+  getNameByProductName,
+  getTypeByProductName,
+} from "@/lib/productsUtils";
 
 function getColorByProduct(product: string): string {
   const type = getTypeByProductName(product);
@@ -31,7 +34,7 @@ function getColorByProduct(product: string): string {
   }
 }
 
-export const columns: ColumnDef<FormProduct>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "title",
     header: "Titre",
@@ -53,7 +56,11 @@ export const columns: ColumnDef<FormProduct>[] = [
       );
     },
     cell: ({ row }) => {
-      return <Badge className={` ${getColorByProduct(row.getValue("type"))}`}>{getNameByProductName(row.getValue("type"))}</Badge>;
+      return (
+        <Badge className={` ${getColorByProduct(row.getValue("type"))}`}>
+          {getNameByProductName(row.getValue("type"))}
+        </Badge>
+      );
     },
   },
   {
@@ -78,7 +85,9 @@ export const columns: ColumnDef<FormProduct>[] = [
   },
   {
     accessorKey: "price",
-    header: ({ column }) => <div className="text-right font-semibold">Prix</div>,
+    header: ({ column }) => (
+      <div className="text-right font-semibold">Prix</div>
+    ),
     cell: ({ row }) => (
       <div className="text-right font-semibold">{row.getValue("price")}</div>
     ),

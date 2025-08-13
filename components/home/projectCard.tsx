@@ -1,23 +1,15 @@
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
-
-export const ProjectStatus = {
-  DRAFT: "Brouillon",
-  IN_PROGRESS: "En cours",
-  VALIDATED: "Validé",
-  DEPLOYED: "Déployé",
-} as const;
-
-export type ProjectStatusKey = keyof typeof ProjectStatus; // "DRAFT" | "IN_PROGRESS" | ...
-export type ProjectStatusValue = typeof ProjectStatus[ProjectStatusKey]; // "Brouillon" | ...
+import { ProjectStatus, ProjectStatusKey } from "@/lib/types/project";
 
 interface ProjectCardProps {
+  id: string;
   title: string;
   status: ProjectStatusKey; 
   date: string;
 }
 
-export default function ProjectCard({ title, status, date }: ProjectCardProps) {
+export default function ProjectCard({ id, title, status, date }: ProjectCardProps) {
   const router = useRouter();
 
   // 4. Couleur selon le statut
@@ -38,7 +30,7 @@ export default function ProjectCard({ title, status, date }: ProjectCardProps) {
 
   // 5. Redirection sur clic
   const handleClick = () => {
-    router.push(`/projects/${encodeURIComponent(title)}`);
+    router.push(`/projects/${id}`);
   };
 
   return (

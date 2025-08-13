@@ -5,21 +5,6 @@ import slugify from "slugify";
 
 const prisma = new PrismaClient();
 
-// model Project {
-//   id             String        @id @default(uuid())
-//   name           String
-//   clientName     String
-//   shopifyStore   ShopifyStore  @relation(fields: [shopifyStoreId], references: [id])
-//   shopifyStoreId String
-//   deadline       DateTime?
-//   status         ProjectStatus @default(DRAFT)
-//   products       Product[]     @relation("ProjectProducts")
-//   userId         String
-//   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   createdAt      DateTime      @default(now())
-//   updatedAt      DateTime      @updatedAt
-// }
-
 export async function POST(req: NextRequest) {
   try {
     const user = await getUser();

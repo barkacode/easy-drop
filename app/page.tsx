@@ -3,8 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/auth-client";
-import ProjectCard, { ProjectStatus, ProjectStatusKey } from "@/components/home/projectCard";
-import PageLayout from "../components/layout/PageLayout";
+import ProjectCard from "@/components/home/projectCard";
 import AddProjectButton from "@/components/home/addProjectButton";
 import StoreCard from "@/components/home/storeCard";
 import AddStoreButton from "@/components/home/addStoreButton";
@@ -15,6 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
+import { ProjectStatusKey } from "@/lib/types/project";
+import PageLayout from "@/components/Layout/pageLayout";
 
 interface Store {
   id: string;
@@ -271,6 +272,7 @@ export default function Home() {
                       key={project.id}
                       title={project.name}
                       status={project.status}
+                      id={project.id}
                       date={
                         project.deadline
                           ? new Date(project.deadline).toLocaleDateString(
