@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
-import { Toaster } from "@/components/ui/sonner"
-
+import { Toaster } from "@/components/ui/sonner";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,20 +29,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr-FR" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="fr-FR"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="min-h-screen bg-background text-base antialiased font-sans">
-        <div className="flex flex-col min-h-screen">
-          <Header />
-
-          <main role="main" className="flex-1 px-4 sm:px-6 lg:px-8 ">
-            <div className="max-w-7xl mx-auto w-full">{children}</div>
-          </main>
-
-          <footer className="py-4 text-center text-sm text-gray-500 border-t">
-            © 2025 BOBW STUDIO. Tous droits réservés.
-          </footer>
-          <Toaster />
-        </div>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset className="">
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main
+                role="main"
+                className="flex flex-1 flex-col gap-4 p-4 pt-0 "
+              >
+                {children}
+              </main>
+              {/* <footer className="py-4 text-center text-sm text-gray-500 border-t">
+                © 2025 BOBW STUDIO. Tous droits réservés.
+              </footer> */}
+              <Toaster />
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
   );
