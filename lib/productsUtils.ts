@@ -35,6 +35,3 @@ export function getNameByProductName(productName: string) {
     throw new Error("Product not found");
   }
 }
-
-console.log(getPoidsByProductName("tshirt_adjusted")); // Outputs: 180
-console.log(getDescriptionByProductName("tshirt_adjusted")); // Outputs: T-shirt col rond manches courtes.\nCoupe : Ajusté\nModèle

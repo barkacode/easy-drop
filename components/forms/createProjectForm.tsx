@@ -61,7 +61,6 @@ export default function CreateProjectForm() {
     const fetchSession = async () => {
       const sessionData = await getSession();
       setSession(sessionData);
-      console.log("User ID from session:", sessionData?.data?.user?.name);
     };
     fetchSession();
   }, []);
@@ -71,7 +70,6 @@ export default function CreateProjectForm() {
       .then((res) => res.json())
       .then((data) => {
         setShopifyStores(data);
-        console.log("Fetched stores:", data);
       });
   }, []);
 

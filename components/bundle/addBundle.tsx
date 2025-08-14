@@ -16,15 +16,15 @@ import { Product } from "@/lib/types";
 
 interface AddBundleProps {
   data: Product[];
+  projectId: string;
 }
 
-export default function AddBundle({ data }: AddBundleProps) {
+export default function AddBundle({ data, projectId }: AddBundleProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDialogClose = () => {
     setIsOpen(false);
   };
-  console.log("2 "+ JSON.stringify(data));
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -38,7 +38,7 @@ export default function AddBundle({ data }: AddBundleProps) {
             Créer un nouveau bundle de produits.
           </DialogDescription>
         </DialogHeader>
-        <CreateBundleForm data={data} />
+        <CreateBundleForm data={data} projectId={projectId} />
         <DialogFooter>
           <Button variant="secondary" onClick={handleDialogClose}>
             Annuler

@@ -54,15 +54,12 @@ export function SignUpForm() {
           },
         })
         .then((res) => {
-          console.log("Utilisateur créé avec succès:", res);
           return res;
         })
         .catch((err) => {
           console.error("Erreur lors de la création de l'utilisateur:", err);
           throw new Error(err.message || "Erreur inconnue");
         });
-
-      console.log("Nouvel utilisateur:", newUser);
 
       toast("Utilisateur créé avec succès !");
       // router.push("/admin/users"); // ou autre page

@@ -23,7 +23,7 @@ import {
   MultiSelectorList,
   MultiSelectorTrigger,
 } from "../ui/multiselect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Product } from "@/lib/types";
 
 const formSchema = z.object({
@@ -36,9 +36,13 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface CreateBundleFormProps {
   data: Product[];
+  projectId: string;
 }
 
-export default function CreateBundleForm({ data }: CreateBundleFormProps) {
+export default function CreateBundleForm({
+  data,
+  projectId,
+}: CreateBundleFormProps) {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [productPrices, setProductPrices] = useState<{ [key: string]: number }>(
     {}
@@ -54,7 +58,6 @@ export default function CreateBundleForm({ data }: CreateBundleFormProps) {
       products: [],
     },
   });
-  console.log("3 "+products)
 
   const handlePriceChange = (productTitle: string, newPrice: string) => {
     setProductPrices((prev) => ({
@@ -73,15 +76,75 @@ export default function CreateBundleForm({ data }: CreateBundleFormProps) {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      console.log("Form submitted:", data);
-      console.log("Product prices:", productPrices);
-      console.log("Total price:", totalPrice);
+      console.log("📤 Début de la soumission du bundle");
+
+      // Récupérer les IDs des produits sélectionnés à partir de leurs titres
+      const selectedProductIds = products
+        .filter((product) => data.products.includes(product.title))
+        .map((product) => product.id);
+
+      if (selectedProductIds.length === 0) {
+        alert("Veuillez sélectionner au moins un produit.");
+        return;
+      }
+
+      // Préparer les données à envoyer
+      const payload = {
+        name: data.name,
+        description: data.description,
+        price: totalPrice, // Utiliser le prix total calculé
+        projectId: projectId,
+        productIds: selectedProductIds,
+        // Optionnel : inclure les prix personnalisés
+        customPrices: productPrices,
+      };
+
+      console.log("📦 Payload envoyé:", payload);
+
+      // Envoyer la requête à l'API
+      const response = await fetch("/api/bundles", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("❌ Erreur API (texte brut):", errorText);
+
+        try {
+          const error = JSON.parse(errorText);
+          console.error("❌ Erreur API (JSON):", error);
+          alert(error.error || "Erreur lors de la création du bundle.");
+        } catch {
+          console.error("Impossible de parser l'erreur JSON");
+          alert(`Erreur ${response.status}: ${errorText}`);
+        }
+        return;
+      }
+
+      const result = await response.json();
+      console.log("✅ Bundle créé avec succès:", result);
+
+      // Afficher un message de succès
+      alert("Bundle créé avec succès !");
+
+      // Réinitialiser le formulaire
+      form.reset();
+      setSelectedProducts([]);
+      setProductPrices({});
+
+      // Appeler le callback de succès pour fermer le dialog et rafraîchir
+      // if (onSuccess) {
+      //   onSuccess();
+      // }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("💥 Erreur lors de la création du bundle:", error);
+      alert("Erreur lors de la création du bundle. Veuillez réessayer.");
     }
   }
-
-
 
   return (
     <Form {...form}>
@@ -128,7 +191,10 @@ export default function CreateBundleForm({ data }: CreateBundleFormProps) {
             <FormItem>
               <FormLabel>Produits disponibles</FormLabel>
               <MultiSelector
-                onValuesChange={field.onChange}
+                onValuesChange={(values) => {
+                  field.onChange(values); // ✅ Met à jour le formulaire
+                  setSelectedProducts(values); // ✅ Met à jour l'état local
+                }}
                 values={field.value ?? []}
                 className="text-sm"
               >

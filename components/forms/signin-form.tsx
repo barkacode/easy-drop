@@ -46,7 +46,6 @@ export default function SignInForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
     await signIn.email(
       {
         email: values.email,
@@ -80,10 +79,7 @@ export default function SignInForm() {
               <h1 className="text-xl font-bold">Identifiez-vous</h1>
               <div className="text-center text-sm text-gray-500">
                 Vous n'avez pas de compte ?{" "}
-                <Link
-                  href="/contact"
-                  className="text-blue-500 hover:underline"
-                >
+                <Link href="/contact" className="text-blue-500 hover:underline">
                   Contactez nous
                 </Link>
               </div>
@@ -115,11 +111,13 @@ export default function SignInForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" 
+              <Button
+                type="submit"
                 className={cn("w-full", loading && "opacity-50")}
                 disabled={loading}
-                >Se connecter</Button>
-
+              >
+                Se connecter
+              </Button>
             </div>
           </div>
         </form>
