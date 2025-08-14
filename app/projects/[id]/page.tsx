@@ -5,7 +5,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { mockBundles } from "@/lib/data";
 import { columns } from "../../../components/product/columns";
 import { columns as bundleColumns } from "@/components/bundle/columns";
-import PageLayout from "../../../components/Layout/pageLayout";
+import PageLayout from "../../../components/layout/pageLayout";
 import AddBundle from "@/components/bundle/addBundle";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
