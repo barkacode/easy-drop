@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUser } from "@/lib/auth-server";
 import { getUserStores } from "@/services/store.service";
-
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
@@ -9,7 +8,6 @@ export async function POST(req: NextRequest) {
     const user = await getUser();
     const data = await req.json();
 
-    console.log("Received data:", data);
     const { name, url } = data;
 
     // Validation simple

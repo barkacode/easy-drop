@@ -145,3 +145,14 @@ export interface ShopifyStore {
   owner: User;
 }
 
+export interface Bundle {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  products: Product[];
+  projectId: string;
+  project: Project;
+  createdAt: Date;
+  updatedAt: Date;
+}

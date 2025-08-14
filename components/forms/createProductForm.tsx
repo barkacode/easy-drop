@@ -223,8 +223,7 @@ export default function CreateProductForm({
             : null,
 
         // Quantité - seulement pour PHONOGRAPHIE
-        quantity:
-          category === "phonographie" ? (data.quantity ?? null) : null,
+        quantity: category === "phonographie" ? data.quantity ?? null : null,
 
         // Type d'impression - seulement pour FABRICATION_FERME
         printType:
@@ -242,8 +241,6 @@ export default function CreateProductForm({
         images: imageUrl ? [imageUrl] : [],
       };
 
-      console.log("Payload envoyé:", payload); // Pour déboguer
-
       const res = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -251,22 +248,21 @@ export default function CreateProductForm({
       });
 
       if (!res.ok) {
-      const errorText = await res.text();
-      console.error("Erreur API (texte brut):", errorText);
-      
-      try {
-        const error = JSON.parse(errorText);
-        console.error("Erreur API (JSON):", error);
-        alert(error.error || "Erreur lors de la création du produit.");
-      } catch {
-        console.error("Impossible de parser l'erreur JSON");
-        alert(`Erreur ${res.status}: ${errorText}`);
+        const errorText = await res.text();
+        console.error("Erreur API (texte brut):", errorText);
+
+        try {
+          const error = JSON.parse(errorText);
+          console.error("Erreur API (JSON):", error);
+          alert(error.error || "Erreur lors de la création du produit.");
+        } catch {
+          console.error("Impossible de parser l'erreur JSON");
+          alert(`Erreur ${res.status}: ${errorText}`);
+        }
+        return;
       }
-      return;
-    }
 
       const result = await res.json();
-      console.log("Produit créé:", result);
 
       alert("Produit créé avec succès !");
       form.reset();
@@ -297,8 +293,6 @@ export default function CreateProductForm({
         return category;
     }
   };
-
-  console.log("form", form);
 
   return (
     <div className="space-y-4">
@@ -573,7 +567,6 @@ export default function CreateProductForm({
                                 const value = parseInt(e.target.value) || 0;
 
                                 if (value === 0) {
-                                  console.log("Removing size:", size);
                                   const newQuantities = { ...sizeQuantities };
                                   delete newQuantities[size];
                                   setSizeQuantities(newQuantities);
