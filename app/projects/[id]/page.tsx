@@ -5,21 +5,23 @@ import { DataTable } from "@/components/ui/data-table";
 import { mockBundles } from "@/lib/data";
 import { columns } from "../../../components/product/columns";
 import { columns as bundleColumns } from "@/components/bundle/columns";
-import PageLayout from "../../../components/Layout/pageLayout";
+import PageLayout from "../../../components/layout/pageLayout";
 import AddBundle from "@/components/bundle/addBundle";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/lib/types";
+import { Bundle } from "@prisma/client";
 
 export default function ProjectPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [bundles, setBundles] = useState<Bundle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const params = useParams();
   const projectId = params.id;
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       if (!projectId) {
         setError("ID du projet manquant");
@@ -31,8 +33,10 @@ export default function ProjectPage() {
         setLoading(true);
 
         // Récupérer les produits
-        const productsResponse = await fetch(`/api/products?projectId=${projectId}`);
-        
+        const productsResponse = await fetch(
+          `/api/products?projectId=${projectId}`
+        );
+
         if (!productsResponse.ok) {
           throw new Error("Erreur lors de la récupération des produits");
         }
@@ -40,14 +44,11 @@ export default function ProjectPage() {
         const productsData = await productsResponse.json();
         setProducts(productsData);
 
-        // TODO: Récupérer les bundles quand l'API sera prête
-        // const bundlesResponse = await fetch(`/api/bundles?projectId=${projectId}`);
-        // const bundlesData = await bundlesResponse.json();
-        // setBundles(bundlesData);
-        
-        // En attendant, utiliser les données mock pour les bundles
-        // setBundles(mockBundles);
-
+        const bundlesResponse = await fetch(
+          `/api/bundles?projectId=${projectId}`
+        );
+        const bundlesData = await bundlesResponse.json();
+        setBundles(bundlesData);
       } catch (err) {
         console.error("Erreur lors du chargement des données:", err);
         setError(
@@ -78,9 +79,9 @@ export default function ProjectPage() {
       </div>
       <h2 className="text-xl font-bold mt-8">Mes bundles</h2>
 
-      <DataTable columns={bundleColumns} data={mockBundles} />
+      <DataTable columns={bundleColumns} data={bundles} />
       <div className="w-full flex justify-end mt-4">
-        <AddBundle data={products} />
+        <AddBundle data={products} projectId={projectId as string} />
       </div>
     </PageLayout>
   );

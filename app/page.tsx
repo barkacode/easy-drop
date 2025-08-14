@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
 import { ProjectStatusKey } from "@/lib/types/project";
-import PageLayout from "@/components/Layout/pageLayout";
+import PageLayout from "@/components/layout/pageLayout";
 
 interface Store {
   id: string;

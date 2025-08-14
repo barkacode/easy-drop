@@ -1,14 +1,14 @@
 "use client";
 
-import { FormBundle } from "@/lib/types/bundle";
+import { Bundle } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<FormBundle>[] = [
+export const columns: ColumnDef<Bundle>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: "Titre",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("title")}</div>
+      <div className="font-medium">{row.getValue("name")}</div>
     ),
   },
   {

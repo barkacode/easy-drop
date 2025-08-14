@@ -24,7 +24,6 @@ export default function AddProduct({ projectId }: AddProductProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCategoryChange = (newCategory: Category | null) => {
-    console.log(`Selected category: ${newCategory}`);
     setCategory(newCategory);
   };
 
