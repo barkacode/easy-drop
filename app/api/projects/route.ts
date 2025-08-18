@@ -43,15 +43,15 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(project, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: error.message || "Erreur lors de la création du projet." },
+      { error: (error as Error).message || "Erreur lors de la création du projet." },
       { status: 500 }
     );
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const user = await getUser();
     if (!user) {
@@ -70,10 +70,10 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json(projects, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching projects:", error);
     return NextResponse.json(
-      { error: error.message || "Erreur lors de la récupération des projets." },
+      { error: (error as Error).message || "Erreur lors de la récupération des projets." },
       { status: 500 }
     );
   }

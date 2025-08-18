@@ -2,7 +2,6 @@
 
 import AddProduct from "@/components/product/addProduct";
 import { DataTable } from "@/components/ui/data-table";
-import { mockBundles } from "@/lib/data";
 import { columns } from "../../../components/product/columns";
 import { columns as bundleColumns } from "@/components/bundle/columns";
 import PageLayout from "../../../components/layout/pageLayout";

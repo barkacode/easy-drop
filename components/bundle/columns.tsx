@@ -13,9 +13,7 @@ export const columns: ColumnDef<Bundle>[] = [
   },
   {
     accessorKey: "price",
-    header: ({ column }) => (
-      <div className="text-right font-semibold">Prix</div>
-    ),
+    header: ({}) => <div className="text-right font-semibold">Prix</div>,
     cell: ({ row }) => (
       <div className="font-medium text-right">{row.getValue("price")}</div>
     ),

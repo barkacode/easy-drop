@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { PrintType, PrismaClient, ProductColor, Prisma } from "@prisma/client";
 import { getUser } from "@/lib/auth-server";
+import { ProductCategory } from "@/lib/types";
 
 const prisma = new PrismaClient();
 
@@ -48,7 +49,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Préparation des données pour Prisma
-    const productData: any = {
+    interface ProductData {
+      category: ProductCategory;
+      type: string;
+      title: string;
+      description: string;
+      price: number;
+      isIndividual: boolean;
+      inPack: boolean;
+      ean?: string | null;
+      color?: ProductColor | null;
+      quantity?: number | null;
+      printType?: PrintType | null;
+      sizes?: undefined;
+      projectId: string;
+      weight?: number | null;
+    }
+
+    const productData: ProductData = {
       category: data.category,
       type: data.type,
       title: data.title,
@@ -110,29 +128,31 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(completeProduct, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("💥 Erreur lors de la création du produit:", error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Gestion des erreurs Prisma spécifiques
+      if (error.code === "P2002") {
+        return NextResponse.json(
+          { error: "Un produit avec ce code EAN existe déjà" },
+          { status: 409 }
+        );
+      }
 
-    // Gestion des erreurs Prisma spécifiques
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        { error: "Un produit avec ce code EAN existe déjà" },
-        { status: 409 }
-      );
+      if (error.code === "P2003") {
+        return NextResponse.json(
+          { error: "Erreur de relation de base de données" },
+          { status: 400 }
+        );
+      }
     }
-
-    if (error.code === "P2003") {
-      return NextResponse.json(
-        { error: "Erreur de relation de base de données" },
-        { status: 400 }
-      );
-    }
-
     return NextResponse.json(
       {
         error: "Erreur lors de la création du produit",
         details:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
+          process.env.NODE_ENV === "development" && error instanceof Error
+            ? error.message
+            : undefined,
       },
       { status: 500 }
     );
@@ -188,11 +208,13 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(products, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching products:", error);
     return NextResponse.json(
       {
-        error: error.message || "Erreur lors de la récupération des produits.",
+        error:
+          (error as Error).message ||
+          "Erreur lors de la récupération des produits.",
       },
       { status: 500 }
     );

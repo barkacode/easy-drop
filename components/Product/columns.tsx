@@ -2,14 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Product } from "@/lib/types";
-import { Images, ImageOff, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
@@ -85,18 +84,14 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: ({ column }) => (
-      <div className="text-right font-semibold">Prix</div>
-    ),
+    header: ({}) => <div className="text-right font-semibold">Prix</div>,
     cell: ({ row }) => (
       <div className="text-right font-semibold">{row.getValue("price")}</div>
     ),
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original;
-
+    cell: ({}) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -61,19 +61,6 @@ export default function AddProduct({ projectId }: AddProductProps) {
     </button>
   );
 
-  const getCategoryTitle = (key: string | null) => {
-    switch (key) {
-      case "on-demand":
-        return "On-demand";
-      case "fabrication-ferme":
-        return "Fabrication ferme";
-      case "phonographie":
-        return "Phonographie";
-      default:
-        return "";
-    }
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

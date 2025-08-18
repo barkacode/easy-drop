@@ -57,7 +57,7 @@ export default function CreateProjectForm() {
       form.reset();
       router.refresh();
     } catch (err) {
-      alert("Erreur lors de la création du projet.");
+      console.log("Erreur lors de la création du projet.", err);
     }
   }
 

@@ -9,7 +9,7 @@ export default function Unauthorized() {
             Accés non autorisé
           </AlertTitle>
           <AlertDescription className="text-sm">
-            Vous n'êtes pas autorisé à accéder à cette page. Veuillez vous
+            Vous n&apos;êtes pas autorisé à accéder à cette page. Veuillez vous
             connecter ou vous inscrire pour continuer.
           </AlertDescription>
         </Alert>

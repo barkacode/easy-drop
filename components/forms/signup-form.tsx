@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
@@ -38,12 +37,10 @@ export function SignUpForm() {
     },
   });
 
-  const router = useRouter();
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await authClient.admin
+      await authClient.admin
         .createUser({
           name: values.username,
           email: values.email,
@@ -63,8 +60,12 @@ export function SignUpForm() {
 
       toast("Utilisateur créé avec succès !");
       // router.push("/admin/users"); // ou autre page
-    } catch (err: any) {
-      toast(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast(err.message);
+      } else {
+        toast("Erreur inconnue");
+      }
     }
   }
 
@@ -86,7 +87,7 @@ export function SignUpForm() {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nom d'utilisateur</FormLabel>
+                    <FormLabel>Nom d&apos;utilisateur</FormLabel>
                     <FormControl>
                       <Input placeholder="" {...field} />
                     </FormControl>
@@ -138,7 +139,7 @@ export function SignUpForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">S'inscrire</Button>
+              <Button type="submit">S&apos;inscrire</Button>
             </div>
           </div>
         </form>

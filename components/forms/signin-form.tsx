@@ -55,10 +55,10 @@ export default function SignInForm() {
         onRequest: () => {
           setLoading(true);
         },
-        onResponse: (res) => {
+        onResponse: () => {
           setLoading(false);
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
           router.push("/");
           router.refresh();
           toast.success("Connexion réussie !");
@@ -78,7 +78,7 @@ export default function SignInForm() {
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-xl font-bold">Identifiez-vous</h1>
               <div className="text-center text-sm text-gray-500">
-                Vous n'avez pas de compte ?{" "}
+                Vous n&apos;avez pas de compte ?{" "}
                 <Link href="/contact" className="text-blue-500 hover:underline">
                   Contactez nous
                 </Link>

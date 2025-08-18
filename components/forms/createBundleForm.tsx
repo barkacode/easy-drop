@@ -43,7 +43,7 @@ export default function CreateBundleForm({
   data,
   projectId,
 }: CreateBundleFormProps) {
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  // const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [productPrices, setProductPrices] = useState<{ [key: string]: number }>(
     {}
   );
@@ -133,7 +133,7 @@ export default function CreateBundleForm({
 
       // Réinitialiser le formulaire
       form.reset();
-      setSelectedProducts([]);
+      // setSelectedProducts([]);
       setProductPrices({});
 
       // Appeler le callback de succès pour fermer le dialog et rafraîchir
@@ -193,7 +193,7 @@ export default function CreateBundleForm({
               <MultiSelector
                 onValuesChange={(values) => {
                   field.onChange(values); // ✅ Met à jour le formulaire
-                  setSelectedProducts(values); // ✅ Met à jour l'état local
+                  // setSelectedProducts(values); // ✅ Met à jour l'état local
                 }}
                 values={field.value ?? []}
                 className="text-sm"
