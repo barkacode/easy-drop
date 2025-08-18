@@ -127,29 +127,35 @@ export async function POST(req: NextRequest) {
     console.log("✅ Bundle créé avec succès:", bundle.id);
 
     return NextResponse.json(bundle, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("💥 Erreur lors de la création du bundle:", error);
 
     // Gestion des erreurs Prisma spécifiques
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        { error: "Un bundle avec ce nom existe déjà dans ce projet" },
-        { status: 409 }
-      );
-    }
+    if (error && typeof error === 'object' && 'code' in error) {
+      const prismaError = error as { code: string; message: string };
+      
+      if (prismaError.code === "P2002") {
+        return NextResponse.json(
+          { error: "Un bundle avec ce nom existe déjà dans ce projet" },
+          { status: 409 }
+        );
+      }
 
-    if (error.code === "P2003") {
-      return NextResponse.json(
-        { error: "Erreur de relation de base de données" },
-        { status: 400 }
-      );
+      if (prismaError.code === "P2003") {
+        return NextResponse.json(
+          { error: "Erreur de relation de base de données" },
+          { status: 400 }
+        );
+      }
     }
 
     return NextResponse.json(
       {
         error: "Erreur lors de la création du bundle",
         details:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
+          process.env.NODE_ENV === "development" && error instanceof Error 
+            ? error.message 
+            : undefined,
       },
       { status: 500 }
     );
@@ -200,11 +206,13 @@ export async function GET(req: NextRequest) {
       );
     }
     return NextResponse.json(bundles, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("💥 Error fetching bundles:", error);
     return NextResponse.json(
       {
-        error: error.message || "Erreur lors de la récupération des bundles.",
+        error: error instanceof Error 
+          ? error.message 
+          : "Erreur lors de la récupération des bundles.",
       },
       { status: 500 }
     );

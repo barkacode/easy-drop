@@ -7,16 +7,12 @@ import {
   Settings,
   Blocks,
   Hexagon,
-  ChevronsUpDown,
-  Plus,
 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -26,13 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "@radix-ui/react-dropdown-menu";
-import { DropdownMenuShortcut } from "../ui/dropdown-menu";
 
 const items = [
   {
@@ -63,7 +53,7 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  useSidebar();
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>

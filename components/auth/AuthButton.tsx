@@ -11,6 +11,8 @@ import { LogOut, User2 } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 
 export const AuthButton = ({
   user,
@@ -22,9 +24,11 @@ export const AuthButton = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center space-x-2" asChild>
         <Button variant="ghost" className="flex items-center p-5" size="sm">
-          <img
+          <Image
             src={user.image || "/default-avatar.png"}
             alt="User Avatar"
+            width={32}
+            height={32}
             className="w-8 h-8 rounded-full"
           />
           <span className="text-sm font-semibold">{user.name || "User"}</span>

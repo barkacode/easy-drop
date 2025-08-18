@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { z } from "zod";
 import {
@@ -18,16 +18,12 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { getStoreByUserId } from "@/services/user.service";
-import { getSession } from "@/lib/auth-client";
-import { getUserStores } from "@/services/store.service";
 import { ProjectStatus } from "@prisma/client";
 const formSchema = z.object({
   name: z.string().min(1, "Nom requis"),
@@ -55,15 +51,15 @@ export default function CreateProjectForm() {
   };
 
   const [shopifyStores, setShopifyStores] = useState<ShopifyStore[]>([]);
-  const [session, setSession] = useState<any>(null);
+  // const [session, setSession] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const sessionData = await getSession();
-      setSession(sessionData);
-    };
-    fetchSession();
-  }, []);
+  // useEffect(() => {
+  //   const fetchSession = async () => {
+  //     const sessionData = await getSession();
+  //     setSession(sessionData);
+  //   };
+  //   fetchSession();
+  // }, []);
 
   useEffect(() => {
     fetch("/api/stores")
@@ -107,7 +103,7 @@ export default function CreateProjectForm() {
       form.reset();
       router.refresh();
     } catch (err) {
-      alert("Erreur lors de la création du projet.");
+      console.error("Erreur lors de la création du projet.", err);
     }
   }
 

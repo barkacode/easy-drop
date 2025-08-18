@@ -30,6 +30,41 @@ interface Project {
   deadline?: string;
 }
 
+interface UserSessionData {
+  user: {
+    id: string;
+    name: string;
+    emailVerified: boolean;
+    email: string;
+    createdAt: Date;
+    updatedAt: Date;
+    image?: string | null | undefined;
+    banned: boolean | null | undefined;
+    role?: string | null | undefined;
+    banReason?: string | null | undefined;
+    banExpires?: Date | null | undefined;
+  };
+  session: {
+    id: string;
+    token: string;
+    userId: string;
+    expiresAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    ipAddress?: string | null | undefined;
+    userAgent?: string | null | undefined;
+    impersonatedBy?: string | null | undefined;
+  };
+}
+
+interface UserSession {
+  data: UserSessionData | null;
+  error?: {
+    code?: string;
+    message?: string;
+  } | null;
+}
+
 // Loading component
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-[200px]">
@@ -61,7 +96,7 @@ const StatsCard = ({
 export default function Home() {
   const [stores, setStores] = useState<Store[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<UserSession | null >(null);
   const [isInitialized, setIsInitialized] = useState(false); // Track if component is initialized
   const [loading, setLoading] = useState({
     session: true,

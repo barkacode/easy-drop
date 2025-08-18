@@ -157,7 +157,8 @@ export default function CreateProductForm({
     form.setValue("sizes", sortedSizes);
   };
 
-  async function uploadImage(file: File): Promise<string | null> {
+  // async function uploadImage(file: File): Promise<string | null> {
+  async function uploadImage(): Promise<string | null> {
     // À adapter selon ta solution d'upload (Cloudinary, S3, etc.)
     // Ici, on retourne null pour l'exemple
     return null;
@@ -168,8 +169,8 @@ export default function CreateProductForm({
       let imageUrl: string | null = null;
 
       if (data.picture && data.picture.length > 0) {
-        const file = data.picture[0];
-        imageUrl = await uploadImage(file);
+        // const file = data.picture[0];
+        imageUrl = await uploadImage();
       }
 
       // Mappage des couleurs vers les enums Prisma
@@ -261,8 +262,6 @@ export default function CreateProductForm({
         }
         return;
       }
-
-      const result = await res.json();
 
       alert("Produit créé avec succès !");
       form.reset();
@@ -542,7 +541,7 @@ export default function CreateProductForm({
                     <div className="space-y-3 text-sm">
                       {Array.from(selectedSizes).map((size, index) => (
                         <div
-                          key={size}
+                          key={index}
                           className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200"
                         >
                           <div className="flex items-center gap-3">

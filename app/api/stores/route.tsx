@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const user = await getUser();
     const data = await req.json();
 
-    const { name, url } = data;
+    const { name } = data;
 
     // Validation simple
     if (!name) {
@@ -24,16 +24,16 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(store, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating store:", error);
     return NextResponse.json(
-      { error: error.message || "Erreur lors de la création de la boutique." },
+      { error: (error as Error).message || "Erreur lors de la création de la boutique." },
       { status: 500 }
     );
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const user = await getUser();
     if (!user) {
@@ -45,11 +45,11 @@ export async function GET(req: NextRequest) {
 
     const stores = await getUserStores(user.id);
     return NextResponse.json(stores, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching stores:", error);
     return NextResponse.json(
       {
-        error: error.message || "Erreur lors de la récupération des boutiques.",
+        error: (error as Error).message || "Erreur lors de la récupération des boutiques.",
       },
       { status: 500 }
     );
