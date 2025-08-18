@@ -1,103 +1,333 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { getSession } from "@/lib/auth-client";
+import ProjectCard from "@/components/home/projectCard";
+import AddProjectButton from "@/components/home/addProjectButton";
+import StoreCard from "@/components/home/storeCard";
+import AddStoreButton from "@/components/home/addStoreButton";
+import {
+  Card,
+  CardHeader,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
+import { LoaderCircle } from "lucide-react";
+import { ProjectStatusKey } from "@/lib/types/project";
+import PageLayout from "@/components/layout/pageLayout";
+
+interface Store {
+  id: string;
+  name: string;
+  status: string;
+}
+
+interface Project {
+  id: string;
+  name: string;
+  status: ProjectStatusKey; 
+  deadline?: string;
+}
+
+interface UserSessionData {
+  user: {
+    id: string;
+    name: string;
+    emailVerified: boolean;
+    email: string;
+    createdAt: Date;
+    updatedAt: Date;
+    image?: string | null | undefined;
+    banned: boolean | null | undefined;
+    role?: string | null | undefined;
+    banReason?: string | null | undefined;
+    banExpires?: Date | null | undefined;
+  };
+  session: {
+    id: string;
+    token: string;
+    userId: string;
+    expiresAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    ipAddress?: string | null | undefined;
+    userAgent?: string | null | undefined;
+    impersonatedBy?: string | null | undefined;
+  };
+}
+
+interface UserSession {
+  data: UserSessionData | null;
+  error?: {
+    code?: string;
+    message?: string;
+  } | null;
+}
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-[200px]">
+    <LoaderCircle className="animate-spin h-8 w-8" />
+    <span className="ml-2">Chargement...</span>
+  </div>
+);
+
+// Stats card component for reusability
+const StatsCard = ({
+  title,
+  count,
+  className = "",
+}: {
+  title: string;
+  count: number;
+  className?: string;
+}) => (
+  <Card className={`@container/card ${className}`}>
+    <CardHeader>
+      <CardDescription>{title}</CardDescription>
+      <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+        {count}
+      </CardTitle>
+    </CardHeader>
+  </Card>
+);
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [stores, setStores] = useState<Store[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [session, setSession] = useState<UserSession | null >(null);
+  const [isInitialized, setIsInitialized] = useState(false); // Track if component is initialized
+  const [loading, setLoading] = useState({
+    session: true,
+    stores: true,
+    projects: true,
+  });
+  const [errors, setErrors] = useState({
+    session: null as string | null,
+    stores: null as string | null,
+    projects: null as string | null,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const router = useRouter();
+
+  // Memoized project statistics
+  const projectStats = useMemo(() => {
+    const inProgress = projects.filter(
+      (p) => p.status === "IN_PROGRESS"
+    ).length;
+    const draft = projects.filter((p) => p.status === "DRAFT").length;
+    const validated = projects.filter((p) => p.status === "VALIDATED").length;
+
+    return { inProgress, draft, validated };
+  }, [projects]);
+
+  // Session fetching with error handling
+  const fetchSession = useCallback(async () => {
+    try {
+      setLoading((prev) => ({ ...prev, session: true }));
+      const sessionData = await getSession();
+
+      if (!sessionData || !sessionData.data) {
+        router.replace("/auth/signin"); 
+        return;
+      }
+
+      setSession(sessionData);
+      setIsInitialized(true);
+      setErrors((prev) => ({ ...prev, session: null }));
+    } catch (error) {
+      console.error("Error fetching session:", error);
+      router.replace("/auth/signin");
+    } finally {
+      setLoading((prev) => ({ ...prev, session: false }));
+    }
+  }, [router]);
+
+  // Stores fetching with error handling
+  const fetchStores = useCallback(async () => {
+    try {
+      setLoading((prev) => ({ ...prev, stores: true }));
+      const res = await fetch("/api/stores");
+
+      if (res.status === 401) {
+        router.push("/auth/signin");
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setStores(Array.isArray(data) ? data : []);
+      setErrors((prev) => ({ ...prev, stores: null }));
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+      setErrors((prev) => ({
+        ...prev,
+        stores: "Erreur lors du chargement des boutiques",
+      }));
+      setStores([]);
+    } finally {
+      setLoading((prev) => ({ ...prev, stores: false }));
+    }
+  }, [router]);
+
+  // Projects fetching with error handling
+  const fetchProjects = useCallback(async () => {
+    try {
+      setLoading((prev) => ({ ...prev, projects: true }));
+      const res = await fetch("/api/projects");
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setProjects(Array.isArray(data) ? data : []);
+      setErrors((prev) => ({ ...prev, projects: null }));
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      setErrors((prev) => ({
+        ...prev,
+        projects: "Erreur lors du chargement des projets",
+      }));
+      setProjects([]);
+    } finally {
+      setLoading((prev) => ({ ...prev, projects: false }));
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSession();
+  }, [fetchSession]);
+
+  useEffect(() => {
+    if (session) {
+      fetchStores();
+      fetchProjects();
+    }
+  }, [session, fetchStores, fetchProjects]);
+
+  if (loading.session || !isInitialized) {
+    return (
+      <PageLayout>
+        <LoadingSpinner />
+      </PageLayout>
+    );
+  }
+
+  // If no session after initialization, show loading while redirecting (prevents flash)
+  if (!session || !session.data) {
+    return (
+      <PageLayout>
+        <LoadingSpinner />
+      </PageLayout>
+    );
+  }
+
+  const userName = session.data.user?.name || "Utilisateur";
+
+  return (
+    <PageLayout>
+      <h1 className="text-3xl font-bold mb-6">Bonjour, {userName}</h1>
+
+      {/* Statistics Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <StatsCard
+          title="Projets en cours de développement"
+          count={projectStats.inProgress}
+        />
+        <StatsCard title="Projets en attente" count={projectStats.draft} />
+        <StatsCard title="Projets terminés" count={projectStats.validated} />
+      </div>
+
+      {/* Stores Section */}
+      <section className="mb-8">
+        <h3 className="text-2xl font-bold mb-4">Vos boutiques Shopify</h3>
+
+        {errors.stores && (
+          <div className="text-red-600 mb-4 p-3 bg-red-50 rounded-md">
+            {errors.stores}
+          </div>
+        )}
+
+        <div className="flex flex-row gap-4 overflow-x-auto pb-2">
+          {loading.stores ? (
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
+              <span>Chargement des boutiques...</span>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-4 min-w-0">
+                {stores.length > 0 ? (
+                  stores.map((store) => (
+                    <StoreCard
+                      key={store.id}
+                      title={store.name}
+                      status={store.status}
+                    />
+                  ))
+                ) : (
+                  <div className="text-gray-500 italic">
+                    Aucune boutique créée
+                  </div>
+                )}
+              </div>
+              <AddStoreButton />
+            </>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Projects Section */}
+      <section>
+        <h3 className="text-2xl font-bold mb-4">Vos projets</h3>
+
+        {errors.projects && (
+          <div className="text-red-600 mb-4 p-3 bg-red-50 rounded-md">
+            {errors.projects}
+          </div>
+        )}
+
+        <div className="flex flex-row gap-4 overflow-x-auto pb-2">
+          {loading.projects ? (
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div>
+              <span>Chargement des projets...</span>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-4 min-w-0">
+                {projects.length > 0 ? (
+                  projects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      title={project.name}
+                      status={project.status}
+                      id={project.id}
+                      date={
+                        project.deadline
+                          ? new Date(project.deadline).toLocaleDateString(
+                              "fr-FR"
+                            )
+                          : ""
+                      }
+                    />
+                  ))
+                ) : (
+                  <div className="text-gray-500 italic">
+                    Aucun projet créé
+                  </div>
+                )}
+              </div>
+              <AddProjectButton />
+            </>
+          )}
+        </div>
+      </section>
+    </PageLayout>
   );
 }
